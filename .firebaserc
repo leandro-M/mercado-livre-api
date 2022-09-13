@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "staging": "procurement-club-stg",
+    "production": "procurement-club-prd"
+  }
+}

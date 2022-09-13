@@ -1,0 +1,32 @@
+steps:
+  # install
+  - name: "gcr.io/cloud-builders/npm"
+    args: ["install"]
+
+  # create env file
+  - name: node:10.15.1
+    entrypoint: npm
+    args: ["run", "create-env"]
+    env:
+      [
+        "BASE_URL=${_BASE_URL}",
+        "API_KEY=${_API_KEY}",
+        "BASE_URL_NLA=${_BASE_URL_NLA}",
+        "CATEGORY_ID_NLA=${_CATEGORY_ID_NLA}",
+        "AUTHORIZATION_NLA=${_AUTHORIZATION_NLA}",
+        "BASE_LINK_NLA=${_BASE_LINK_NLA}",
+        "SENDGRID_API_KEY=${_SENDGRID_API_KEY}",
+        "BASE_URL_NEWS=${_BASE_URL_NEWS}",
+        "MAIL_SENDER=${_MAIL_SENDER}",
+        "CURRENT_ENV=${_CURRENT_ENV}",
+      ]
+
+  # build
+  - name: "gcr.io/cloud-builders/npm"
+    args: ["run", "build"]
+
+  # deploy
+  - name: "gcr.io/procurement-club-stg/firebase:latest"
+    args: ["deploy", "--project=$PROJECT_ID", "--only=functions"]
+options:
+  logging: CLOUD_LOGGING_ONLY
